@@ -21,8 +21,20 @@ $(document).ready(function () {
 
     // basic play and stop functions
     function playSound(sound) {
-        sound.play();
-        soundPlaying = true;
+        let promise = sound.play();
+        if (promise !== undefined) {
+          promise
+            .then((_) => {
+              // Autoplay started!
+              soundPlaying = true;
+            })
+            .catch((error) => {
+              // Autoplay was prevented.
+              // Show a "Play" button so that user can start playback.
+              console.log(error);
+              soundPlaying = false;
+            });
+        }
     }
 
     function pauseSound(sound) {
@@ -39,15 +51,15 @@ $(document).ready(function () {
             const iconID = currentSoundID + 1;
 
             if (!currentSound.paused) { // current sound playing
-                pauseSound(soundsArray[currentSoundID]);
+                pauseSound(currentSound);
                 // set the proper icon
-                $("#play" + iconID).show();
-                $("#pause" + iconID).hide();
-            } else if (currentSound.paused) { // current sound paused
-                playSound(soundsArray[currentSoundID]);
+                $("#play" + iconID).removeClass("hidden");
+                $("#pause" + iconID).addClass("hidden");
+            } else { // current sound paused
+                playSound(currentSound);
                 // set the proper icon
-                $("#play" + iconID).hide();
-                $("#pause" + iconID).show();
+                $("#play" + iconID).addClass("hidden");
+                $("#pause" + iconID).removeClass("hidden");
             }
 
             // in this case it is the same tile
@@ -58,8 +70,8 @@ $(document).ready(function () {
             pauseSound(soundsArray[currentSoundID]);
             const nonActiveID = currentSoundID + 1;
             // set the proper icon
-            $("#play" + nonActiveID).show();
-            $("#pause" + nonActiveID).hide();
+            $("#play" + nonActiveID).removeClass("hidden");
+            $("#pause" + nonActiveID).addClass("hidden");
 
             currentSoundID = soundTxtArray.indexOf(newSoundTxt);
             console.log(soundTxtArray[currentSoundID]);
@@ -67,8 +79,8 @@ $(document).ready(function () {
             playSound(soundsArray[currentSoundID]);
             const activeID = currentSoundID + 1;
             // set the proper icon
-            $("#play" + activeID).hide();
-            $("#pause" + activeID).show();
+            $("#play" + activeID).addClass("hidden");
+            $("#pause" + activeID).removeClass("hidden");
 
             setActiveTile(nonActiveID, activeID);
         }
@@ -79,25 +91,32 @@ $(document).ready(function () {
         $("#btn" + activeID).addClass("active");
     }
 
-    $("#btn1").on("tap", function () {
+    $("#btn1").on("tap", function (event) {
         playBtnClck(AUDIO1);
+        event.preventDefault();
     });
     $("#btn2").on("tap", function () {
         playBtnClck(AUDIO2);
+        event.preventDefault();
     });
     $("#btn3").on("tap", function () {
         playBtnClck(AUDIO3);
+        event.preventDefault();
     });
     $("#btn4").on("tap", function () {
         playBtnClck(AUDIO4);
+        event.preventDefault();
     });
     $("#btn5").on("tap", function () {
         playBtnClck(AUDIO5);
+        event.preventDefault();
     });
     $("#btn6").on("tap", function () {
         playBtnClck(AUDIO6);
+        event.preventDefault();
     });
     $("#btn7").on("tap", function () {
         playBtnClck(AUDIO7);
+        event.preventDefault();
     });
 });
