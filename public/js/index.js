@@ -23,34 +23,60 @@ $(document).ready(function () {
     function playSound(sound) {
         sound.play();
         soundPlaying = true;
-        console.log("Sound playing: " + soundPlaying);
     }
 
-    function stopSound(sound) {
+    function pauseSound(sound) {
         sound.pause();
-        sound.currentTime = 0;
         soundPlaying = false;
-        console.log("Sound playing: " + soundPlaying);
     }
 
     // play the sound from the selected button
-    function playBtnClck(soundTxt) {
-        // frist stop the current sound from playing
-        stopSound(soundsArray[currentSoundID]);
-        const nonActiveID = currentSoundID + 1;
+    function playBtnClck(newSoundTxt) {
+        // check if we are playing a new sound or playing/pausing the current one
+        if (newSoundTxt === soundTxtArray[currentSoundID]) {
+            // current sound
+            let currentSound = soundsArray[currentSoundID];
+            const iconID = currentSoundID + 1;
 
-        currentSoundID = soundTxtArray.indexOf(soundTxt);
-        console.log(soundTxtArray[currentSoundID]);
-        // play the new sound
-        playSound(soundsArray[currentSoundID]);
-        const activeID = currentSoundID + 1;
+            if (!currentSound.paused) { // current sound playing
+                pauseSound(soundsArray[currentSoundID]);
+                // set the proper icon
+                $("#play" + iconID).show();
+                $("#pause" + iconID).hide();
+            } else if (currentSound.paused) { // current sound paused
+                playSound(soundsArray[currentSoundID]);
+                // set the proper icon
+                $("#play" + iconID).hide();
+                $("#pause" + iconID).show();
+            }
 
-        setActiveTile(nonActiveID, activeID);
+            // in this case it is the same tile
+            setActiveTile(iconID, iconID);
+        } else {
+            // we are playing a new sound
+            // frist stop the current sound from playing
+            pauseSound(soundsArray[currentSoundID]);
+            const nonActiveID = currentSoundID + 1;
+            // set the proper icon
+            $("#play" + nonActiveID).show();
+            $("#pause" + nonActiveID).hide();
+
+            currentSoundID = soundTxtArray.indexOf(newSoundTxt);
+            console.log(soundTxtArray[currentSoundID]);
+            // play the new sound
+            playSound(soundsArray[currentSoundID]);
+            const activeID = currentSoundID + 1;
+            // set the proper icon
+            $("#play" + activeID).hide();
+            $("#pause" + activeID).show();
+
+            setActiveTile(nonActiveID, activeID);
+        }
     }
 
     function setActiveTile(nonActiveID, activeID) {
-        $("#" + nonActiveID).removeClass("active");
-        $("#" + activeID).addClass("active");
+        $("#btn" + nonActiveID).removeClass("active");
+        $("#btn" + activeID).addClass("active");
     }
 
     $("#btn1").on("tap", function () {
