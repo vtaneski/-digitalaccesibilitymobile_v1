@@ -93,6 +93,7 @@ $(document).ready(function () {
 
     $("#btn1").on("tap", function (event) {
         playBtnClck(AUDIO1);
+		console.log();
         event.preventDefault();
     });
     $("#btn2").on("tap", function () {
