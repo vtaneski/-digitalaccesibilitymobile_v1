@@ -19,21 +19,23 @@ $(document).ready(function () {
     const soundsArray = [sound1, sound2, sound3, sound4, sound5, sound6, sound7];
     let currentSoundID = 0;
 
+    setOnTapListeners();
+
     // basic play and stop functions
     function playSound(sound) {
         let promise = sound.play();
         if (promise !== undefined) {
-          promise
-            .then((_) => {
-              // Autoplay started!
-              soundPlaying = true;
-            })
-            .catch((error) => {
-              // Autoplay was prevented.
-              // Show a "Play" button so that user can start playback.
-              console.log(error);
-              soundPlaying = false;
-            });
+            promise
+                .then((_) => {
+                    // Autoplay started!
+                    soundPlaying = true;
+                })
+                .catch((error) => {
+                    // Autoplay was prevented.
+                    // Show a "Play" button so that user can start playback.
+                    console.log(error);
+                    soundPlaying = false;
+                });
         }
     }
 
@@ -91,33 +93,16 @@ $(document).ready(function () {
         $("#btn" + activeID).addClass("active");
     }
 
-    $("#btn1").on("tap", function (event) {
-        playBtnClck(AUDIO1);
-		console.log();
-        event.preventDefault();
-    });
-    $("#btn2").on("tap", function () {
-        playBtnClck(AUDIO2);
-        event.preventDefault();
-    });
-    $("#btn3").on("tap", function () {
-        playBtnClck(AUDIO3);
-        event.preventDefault();
-    });
-    $("#btn4").on("tap", function () {
-        playBtnClck(AUDIO4);
-        event.preventDefault();
-    });
-    $("#btn5").on("tap", function () {
-        playBtnClck(AUDIO5);
-        event.preventDefault();
-    });
-    $("#btn6").on("tap", function () {
-        playBtnClck(AUDIO6);
-        event.preventDefault();
-    });
-    $("#btn7").on("tap", function () {
-        playBtnClck(AUDIO7);
-        event.preventDefault();
-    });
+    function setOnTapListeners() {
+        let btnsArray = $(".bg-teal-300");
+        btnsArray.each(function (i, obj) {
+            console.log(i);
+
+            $(obj).on("tap", function (event) {
+                playBtnClck(soundTxtArray[i]);
+                console.log();
+                event.preventDefault();
+            });
+        });
+    }
 });
