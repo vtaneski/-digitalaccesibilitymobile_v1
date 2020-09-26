@@ -141,7 +141,6 @@ $(document).ready(function () {
             $("#pause" + nonActiveID).addClass("hidden");
 
             currentSoundID = soundTxtArray.indexOf(newSoundTxt);
-            console.log(soundTxtArray[currentSoundID]);
             // play the new sound
             playSound(soundsArray[currentSoundID]);
             const activeID = currentSoundID + 1;
@@ -161,11 +160,9 @@ $(document).ready(function () {
     function setOnTapListeners() {
         let btnsArray = $(".bg-teal-300");
         btnsArray.each(function (i, obj) {
-            console.log(i);
 
             $(obj).on("tap", function (event) {
                 playBtnClck(soundTxtArray[i]);
-                console.log();
                 event.preventDefault();
             });
         });

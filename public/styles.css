@@ -6,8 +6,7 @@
 /*FERI styles*/
 .active {
   background-color: #f687b3 !important;
-  border: 5px solid #d53f8c;
-  font-weight: 700;
+  outline: 5px solid #d53f8c;
 }
 
 .h-20-vh {
